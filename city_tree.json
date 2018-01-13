@@ -1,0 +1,156 @@
+{
+	"name": "设备1",
+	"size": 100,
+	"change": 1.00,
+	"status": 0,
+	"children": [
+		{
+			"name": "设备11",
+			"size": 20,
+			"change": 2.66,
+			"status": 0,
+			"children": [
+				{
+					"name": "设备21",
+					"size": 10,
+					"change": 1.22,
+					"status": 1
+				},
+				{
+					"name": "设备22",
+					"size": 2,
+					"change": 1.44,
+					"status": 0
+				},
+				{
+					"name": "设备23",
+					"size": 2,
+					"change": -1.56,
+					"status": 0
+				},
+				{
+					"name": "设备24",
+					"size": 4,
+					"change": 0,
+					"status": 0
+				}
+			]
+		},
+		{
+			"name": "设备12",
+			"size": 30,
+			"status": 0,
+			"change": -4.00,
+			"children": [
+				{
+					"name": "设备25",
+					"size": 20,
+					"status": 0,
+					"change": 5.77,
+					"children": [
+						{
+							"name": "设备31",
+							"size": 3,
+							"change": 1,
+							"status": 0
+						},
+						{
+							"name": "设备32",
+							"size": 2,
+							"change": 1,
+							"status": 0
+						},
+						{
+							"name": "设备33",
+							"size": 8,
+							"change": 1,
+							"status": 0
+						},
+						{
+							"name": "设备34",
+							"size": 4,
+							"change": 1,
+							"status": 0
+						}
+					]
+				},
+				{
+					"name": "设备26",
+					"size": 2,
+					"change": 1,
+					"status": 0
+				},
+				{
+					"name": "设备27",
+					"size": 3,
+					"change": 1,
+					"status": 0
+				}
+			]
+		},
+		{
+			"name": "设备13",
+			"size": 40,
+			"change": 1,
+			"status": 0,
+			"children": [
+				{
+					"name": "设备29",
+					"size": 3,
+					"change": 1,
+					"status": 0
+				},
+				{
+					"name": "设备210",
+					"size": 20,
+					"change": 1,
+					"status": 0
+				},
+				{
+					"name": "设备211",
+					"size": 13,
+					"change": 1,
+					"status": 0
+				},
+				{
+					"name": "设备212",
+					"size": 4,
+					"change": 1,
+					"status": 0
+				}
+			]
+		},
+		{
+			"name": "设备14",
+			"size": 10,
+			"change": 1,
+			"status": 0,
+			"children": [
+				{
+					"name": "设备213",
+					"size": 2,
+					"change": 1,
+					"status": 0
+				},
+				{
+					"name": "设备214",
+					"size": 3,
+					"change": 1,
+					"status": 0
+				},
+				{
+					"name": "设备215",
+					"size": 1,
+					"change": 1,
+					"status": 0
+				},
+				{
+					"name": "设备216",
+					"size": 4,
+					"change": 1,
+					"status": 0
+				}
+			]
+		}
+	]
+}

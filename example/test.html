@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .nodeText {
+            writing-mode: tb;
+            font-family: simsun;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script>
+        // 圆形分区图
+        const width = 750,
+            height = 600,
+            radius = Math.min(width, height) / 2;
+        let color = d3.scale.category20c();//输出20种颜色预设序数的比例尺
+        let canvas = d3.select('body')
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height)
+            .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");//居中;
+        let partition = d3.layout.partition()
+            .sort(null)
+            .size([2 * Math.PI, radius * radius])
+            .value((d) => d.size);
+        let arc = d3.svg.arc()
+            .startAngle((d) => d.x)
+            .endAngle((d) => d.x + d.dx)
+            .innerRadius((d) => Math.sqrt(d.y))
+            .outerRadius((d) => Math.sqrt(d.y + d.dy));
+        d3.json('city_tree.json', (error, root) => {
+            if (error) console.error(error);
+
+            let nodes = partition.nodes(root);
+            let links = partition.links(nodes);
+
+            let gArcs = canvas.selectAll('g')
+                .data(nodes)
+                .enter()
+                .append('g');
+
+            gArcs.append('path')
+                .attr('display', (d) => d.depth ? null : 'none') // 内环不着色，内环的display设为none
+                .attr('d', arc)
+                .style('stroke', '#fff')
+                .style('fill', (d) => {
+                    return color((d.children ? d : d.parent).name);
+                })
+                .style("fill-rule", "evenodd");
+        });
+
+    </script>
+</body>
+
+</html>
+<!-- <script>
+        // D3.js tutorial - 10 json & csv
+        // d3.csv("mydata.csv", function(data) {
+        //     console.log(data);
+        //     let canvas = d3.select('body')
+        //         .append('svg')
+        //         .attr('width', 500)
+        //         .attr('height', 500)
+        //     canvas.selectAll('rect')
+        //         .data(data)
+        //         .enter()
+        //             .append('rect')
+        //             .attr('width', (d) => d.age * 10)
+        //             .attr('height', 48)
+        //             .attr('y',(d, i)=> i*50)
+        //             .attr('fill', 'blue')
+        //     canvas.selectAll('text')
+        //         .data(data)
+        //         .enter()
+        //             .append('text')
+        //             .attr('fill', 'white')
+        //             .attr('y',(d, i)=> i*50 + 24)
+        //             .text((d) => d.name)
+        // });
+
+        // D3.js tutorial - 11 - Paths
+        // let canvas = d3.select('body').append('svg')
+        // .attr('width', 500)
+        // .attr('height', 500)
+        // const data = [
+        //     {x: 10, y: 20},
+        //     {x: 40, y: 60},
+        //     {x: 50, y: 70}
+        // ];
+        // let group = canvas.append('g')
+        //     .attr('transform', 'translate(100, 100)')
+        // let line = d3.svg.line()
+        //     .x((d) => d.x)
+        //     .y((d) => d.y);
+        // group.selectAll('path')
+        //     .data([data])
+        //     .enter()
+        //     .append('path')
+        //     .attr('d', line)
+        //     .attr('fill','none')
+        //     .attr('stroke', '#000')
+        //     .attr("stroke-width", 10);
+
+        // D3.js tutorial - 12 arcs(圆弧)
+        // let canvas = d3.select('body')
+        //     .append('svg')
+        //     .attr('width', 500)
+        //     .attr('height', 500)
+        // let group = canvas.append('g')
+        //     .attr('transform', 'translate(100, 100)')
+        // const r = 100;
+        // const p = Math.PI * 2;
+        // let arc = d3.svg.arc()
+        //     .innerRadius(r - 20)
+        //     .outerRadius(r)
+        //     .startAngle(0)
+        //     .endAngle(p - 1)
+        // group.append('path')
+        //     .attr('d', arc)
+
+        // D3.js tutorial - 13 The Pie Layout
+        // const color = d3.scale.ordinal()
+        //     .range(['red', 'blue', 'orange'])
+        // const data = [10, 50, 80];
+        // const r = 300;
+        // let canvas = d3.select('body')
+        //     .append('svg')
+        //     .attr('width', 1500)
+        //     .attr('height', 1500)
+        // let group = canvas.append('g')
+        //     .attr('transform', "translate(300, 300)");
+        // let arc = d3.svg.arc()
+        //     .innerRadius(200)
+        //     .outerRadius(r);
+        // let pie = d3.layout.pie()
+        //     .value((d) => d);
+        // let arcs = group.selectAll('.arc')
+        //     .data(pie(data))
+        //     .enter()
+        //     .append('g')
+        //     .attr('class', 'arc');
+        // arcs.append('path')
+        //     .attr('d', arc)
+        //     .attr('fill', (d) => color(d.data))
+
+        
+        // 树形分区图
+        // const width = 1500,
+        //     height = 1500;
+        // let color = d3.scale.category20();//输出20种颜色预设序数的比例尺
+        // let canvas = d3.select('body')
+        //     .append('svg')
+        //     .attr('width', width)
+        //     .attr('height', height)
+        // // let gTree = canvas.append('g')
+        // //     .attr('transform', "translate(50, 0)");
+        // let partition = d3.layout.partition()
+        //     .sort(null)
+        //     .size([800, 500])
+        //     .value((d) => d.size);
+        // d3.json('city_tree.json', (error, root) => {
+        //     if(error) console.error(error);
+        //     let nodes = partition.nodes(root);
+        //     let links = partition.links(nodes);
+        //     console.log(nodes);
+        //     let gRects = canvas.selectAll('g')
+        //         .data(nodes)
+        //         .enter()
+        //         .append('g');
+        //     gRects.append('rect')
+        //         .attr('x', (d) => d.x)
+        //         .attr('y', (d) => d.y)
+        //         .attr('width', (d) => d.dx)
+        //         .attr('height', (d) => d.dy)
+        //         .style('stroke', '#fff')
+        //         .style('fill', (d) => {
+        //             return color((d.children ? d : d.parent).name);
+        //         });
+        //     gRects.append('text')
+        //         .attr('class', 'nodeText')
+        //         .attr('x', (d) => d.x)
+        //         .attr('y', (d) => d.y)
+        //         .attr('dx', 20)
+        //         .attr('dy', 20)
+        //         .text((d, i) => d.name);
+        // })
+
+        // 树状图
+        // const width = 1500,
+        //     height = 1500;
+        // let tree = d3.layout.tree()
+        //     .size([width, height - 200])
+        //     .separation((a, b) => {
+        //         return (a.parent == b.parent ? 1 : 2);
+        //     });
+        // let canvas = d3.select('body')
+        //     .append('svg')
+        //     .attr('width', width)
+        //     .attr('height', height)
+        // let gTree = canvas.append('g')
+        //     .attr('transform', "translate(50, 0)");
+        // d3.json('city_tree.json', (error, root) => {
+        //     let nodes = tree.nodes(root);
+        //     let links = tree.links(nodes);
+
+        //     let link = gTree.selectAll('.link')
+        //         .data(links)
+        //         .enter()
+        //         .append('path')
+        //         .attr('class', 'link')
+        //         .attr('d', diagonal)
+        //         .attr('fill','transparent')
+        //         .attr('stroke','#f3f3f3')
+        //         .attr('stroke-width',3); //使用对角线生成器
+        //     let node = gTree.selectAll('.node')
+        //         .data(nodes)
+        //         .enter()
+        //         .append('g')
+        //         .attr('class', 'node')
+        //         .attr('transform', (d) => {
+        //             return `translate(${d.y},${d.x})`
+        //         });
+        //     node.append('circle')
+        //         .attr('r', 4.5)
+        //     node.append('text')
+        //         .attr('dx', (d) => {
+        //             return d.children ? -8 : 8
+        //         })
+        //         .attr('dy',3)
+        //         .style('text-anchor', (d) => {
+        //             return d.children ? 'end' : 'start'
+        //         })
+        //         .text((d) => d.name);
+        // });
+        // //对调x，y坐标，使之变成一个横向的树状图
+        // let diagonal = d3.svg.diagonal()
+        //     .projection((d) => {
+        //         return [d.y, d.x];
+        //     });
+
+    </script> -->

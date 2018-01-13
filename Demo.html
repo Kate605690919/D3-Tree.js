@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>D3 Tree</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            margin: auto;
+            position: relative;
+            width: 960px;
+        }
+
+        #d3tree {
+            height: 500px;
+            width: 500px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="d3tree"></div>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="./src/D3-Tree.js"></script>
+    <script>
+        d3.json('city_tree.json', (error, data) => {
+            d3Tree.init({
+                query: '#d3tree',
+                data: data,
+                info: [
+                    {name: '设备名', value: 'name'},
+                    {name: '变化量', value: 'change'},
+                    {name: '状态', value: 'status'}
+                ],
+                flag: {key:'status', standard: 0.5}
+            });
+        })
+    </script>
+</body>
+
+</html>
